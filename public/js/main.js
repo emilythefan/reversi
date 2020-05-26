@@ -22,7 +22,6 @@ if('undefined' == typeof chat_room || !chat_room) {
 	chat_room = 'lobby';
 }
 
-
 /* Connect to the socket server */
 var socket = io.connect();
 /* What to do when the server sends me a log message */
@@ -36,6 +35,7 @@ socket.on('join_room_response',function(payload) {
 		alert(payload.message);
 		return;
 	}
+	console.log.apply(console,['beby']);
 
 	/* If we are being notified that we joined the room, then ignore it */
 	if(payload.socket_id == socket.id) {
@@ -53,7 +53,7 @@ socket.on('join_room_response',function(payload) {
 		nodeB.addClass('socket_'+payload.socket_id);
 
 		var nodeC = $('<div></div>');
-		nodeA.addClass('socket_'+payload.socket_id);
+		nodeC.addClass('socket_'+payload.socket_id);
 
 		nodeA.addClass('w-100');
 
@@ -93,16 +93,16 @@ socket.on('player_disconnected',function(payload) {
 		alert(payload.message);
 		return;
 	}
-
 	/* If we are being notified that we left the room, then ignore it */
 	if(payload.socket_id == socket.id) {
 		return;
 	}
-
 	/* If someone left the room then animate out all their content */
 	var dom_elements = $('.socket_'+payload.socket_id);
+	
 	/* If something exists */
 	if(dom_elements.length != 0) {
+		console.log(dom_elements.length);
 		dom_elements.slideUp(1000);
 	}
 	/* Manage the message that a player has left */
@@ -111,7 +111,6 @@ socket.on('player_disconnected',function(payload) {
 	newNode.hide();
 	$('#messages').append(newNode);
 	newNode.slideDown(1000);
-
 });
 
 socket.on('send_message_response',function(payload) {

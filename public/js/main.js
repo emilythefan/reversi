@@ -35,7 +35,6 @@ socket.on('join_room_response',function(payload) {
 		alert(payload.message);
 		return;
 	}
-	console.log.apply(console,['beby']);
 
 	/* If we are being notified that we joined the room, then ignore it */
 	if(payload.socket_id == socket.id) {
